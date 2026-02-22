@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowSense - AI 주식 분석</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css?v=12">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1><svg class="header-logo" width="28" height="28" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hgrad" x1="30" y1="435" x2="450" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00D4FF"/><stop offset="30%" stop-color="#4D8BFF"/><stop offset="60%" stop-color="#7B61FF"/><stop offset="100%" stop-color="#B44AFF"/></linearGradient></defs><path d="M 385 133 Q 399 181, 447 195 Q 399 209, 385 257 Q 371 209, 323 195 Q 371 181, 385 133 Z" fill="url(#hgrad)"/><path d="M 35 435 C 55 435, 85 360, 120 335 C 155 310, 170 395, 205 400 C 240 405, 300 310, 345 240 C 360 215, 375 200, 385 195" stroke="url(#hgrad)" stroke-width="25" stroke-linecap="round" fill="none"/></svg>FlowSense</h1>
+            <button type="button" id="themeToggle" class="theme-btn">다크</button>
+        </header>
+
+        <div class="landing-wrapper">
+            <div class="landing-hero">
+                <div class="landing-logo-svg">
+                    <svg width="200" height="200" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <title>FlowSense 로고</title>
+                        <defs>
+                            <linearGradient id="grad" x1="30" y1="435" x2="450" y2="130" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#00D4FF"/>
+                                <stop offset="30%" stop-color="#4D8BFF"/>
+                                <stop offset="60%" stop-color="#7B61FF"/>
+                                <stop offset="100%" stop-color="#B44AFF"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M 385.0 133.0 Q 399.0 181.0, 447.0 195.0 Q 399.0 209.0, 385.0 257.0 Q 371.0 209.0, 323.0 195.0 Q 371.0 181.0, 385.0 133.0 Z" fill="url(#grad)"/>
+                        <path d="M 35 435 C 55 435, 85 360, 120 335 C 155 310, 170 395, 205 400 C 240 405, 300 310, 345 240 C 360 215, 375 200, 385 195" stroke="url(#grad)" stroke-width="25" stroke-linecap="round" fill="none"/>
+                    </svg>
+                </div>
+                <h2 class="landing-title">FlowSense</h2>
+                <p class="landing-subtitle">AI 주식 분석</p>
+
+                <div class="landing-search">
+                    <div class="search-wrapper">
+                        <input type="text" id="searchInput" placeholder="종목명을 검색하세요" autocomplete="off">
+                        <button type="button" id="searchBtn" class="search-btn">분석</button>
+                        <div id="autocomplete" class="autocomplete-dropdown"></div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="digest-section" id="digestSection">
+                <div class="digest-header">
+                    <h3>이번 주 시장 요약</h3>
+                    <button type="button" id="digestRefreshBtn" class="digest-refresh-btn">새로 생성</button>
+                </div>
+                <div class="digest-card">
+                    <p id="digestText" class="digest-text">시장 요약을 불러오는 중...</p>
+                    <div class="digest-sector-wrap">
+                        <div>
+                            <p class="digest-sector-title">상승 상위 업종</p>
+                            <div id="digestTopSectors" class="digest-sector-tags"></div>
+                        </div>
+                        <div>
+                            <p class="digest-sector-title">하락 상위 업종</p>
+                            <div id="digestBottomSectors" class="digest-sector-tags"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="heatmap-section" id="heatmapSection">
+                <div class="heatmap-header">
+                    <h3>업종별 시장 현황</h3>
+                    <p id="heatmapState" class="heatmap-state">업종 데이터를 불러오는 중...</p>
+                </div>
+                <div class="heatmap-grid" id="heatmapGrid"></div>
+            </section>
+
+            <section class="popular-section" id="popularSection">
+                <div class="popular-tabs">
+                    <button type="button" class="popular-tab-btn active" data-category="volume_top">거래량 TOP</button>
+                    <button type="button" class="popular-tab-btn" data-category="volume_zero">거래없는 종목</button>
+                    <button type="button" class="popular-tab-btn" data-category="top_gainers">급상승</button>
+                    <button type="button" class="popular-tab-btn" data-category="top_losers">급하강</button>
+                </div>
+                <div class="popular-grid" id="popularGrid"></div>
+                <div id="popularLoading" class="popular-loading">
+                    <div class="spinner"></div>
+                </div>
+            </section>
+
+            <section class="whatif-section" id="whatifSection">
+                <div class="whatif-header">
+                    <h3>만약에 투자했다면?</h3>
+                    <p>과거에 투자했다면 지금 얼마일까요?</p>
+                </div>
+                <div class="whatif-form">
+                    <div class="whatif-stock-wrap">
+                        <input type="text" id="whatifStockInput" class="whatif-input" placeholder="종목명을 검색하세요" autocomplete="off">
+                        <div id="whatifAutocomplete" class="autocomplete-dropdown"></div>
+                    </div>
+                    <input type="number" id="whatifAmountInput" class="whatif-input" placeholder="투자 금액 (원)" value="10000000" min="1" step="1">
+                    <input type="date" id="whatifDateInput" class="whatif-input">
+                    <button type="button" id="whatifBtn" class="whatif-btn">계산하기</button>
+                </div>
+                <div class="whatif-result" id="whatifResult" aria-live="polite"></div>
+            </section>
+
+            <section class="portfolio-section" id="portfolioSection">
+                <div class="portfolio-section-header">
+                    <h3>가상 포트폴리오</h3>
+                    <p>1,000만원으로 시작하는 모의 투자</p>
+                </div>
+
+                <div class="portfolio-header">
+                    <div class="portfolio-summary-item">
+                        <span class="portfolio-summary-label">현금</span>
+                        <span class="portfolio-summary-value" id="portfolioCash">0원</span>
+                    </div>
+                    <div class="portfolio-summary-item">
+                        <span class="portfolio-summary-label">주식 평가금액</span>
+                        <span class="portfolio-summary-value" id="portfolioStockValue">0원</span>
+                    </div>
+                    <div class="portfolio-summary-item">
+                        <span class="portfolio-summary-label">총 손익</span>
+                        <span class="portfolio-summary-value" id="portfolioProfit">0원</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-form" id="portfolioForm">
+                    <div class="portfolio-stock-wrap">
+                        <input type="text" id="portfolioStockInput" class="portfolio-input" placeholder="종목명을 검색하세요" autocomplete="off">
+                        <div id="portfolioAutocomplete" class="autocomplete-dropdown"></div>
+                    </div>
+                    <input type="number" id="portfolioQtyInput" class="portfolio-input portfolio-qty" placeholder="수량" value="1" min="1" step="1">
+                    <button type="button" id="portfolioBuyBtn" class="portfolio-buy-btn">매수</button>
+                    <button type="button" id="portfolioResetBtn" class="portfolio-reset-btn">초기화</button>
+                </div>
+
+                <p class="portfolio-message" id="portfolioMessage" aria-live="polite"></p>
+
+                <div class="portfolio-holdings" id="portfolioHoldings"></div>
+            </section>
+        </div>
+
+        <footer>
+            <p>본 서비스는 참고용이며, 실제 투자 결정은 전문가와 상담하시기 바랍니다.</p>
+        </footer>
+    </div>
+
+    <div class="chat-fab" id="chatFab">AI</div>
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <span class="chat-header-title">FlowSense AI</span>
+            <button type="button" class="chat-close" id="chatClose">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="주식에 대해 무엇이든 물어보세요" autocomplete="off">
+            <button type="button" class="chat-send-btn" id="chatSend">전송</button>
+        </div>
+    </div>
+
+    <script src="/static/landing.js?v=8"></script>
+    <script src="/static/chat.js?v=2"></script>
+</body>
+</html>

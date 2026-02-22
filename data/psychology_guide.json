@@ -1,0 +1,68 @@
+{
+  "biases": [
+    {
+      "id": "loss_aversion",
+      "name": "손실 회피 편향",
+      "source": "Kahneman & Tversky, Prospect Theory (1979)",
+      "description": "동일한 금액이라도 이익보다 손실이 약 2배 더 크게 느껴진다. 손실을 피하려는 심리가 손절을 지연시키고, 수익을 조기에 확정하게 만든다.",
+      "investor_trap": "하락 종목을 본전까지 들고 가려는 경향. 반대로 수익이 나면 서둘러 파는 경향.",
+      "counter_strategy": "사전에 손절 기준과 목표가를 설정하고 기계적으로 실행한다."
+    },
+    {
+      "id": "disposition_effect",
+      "name": "처분 효과",
+      "source": "Shefrin & Statman (1985)",
+      "description": "이익 난 주식은 너무 빨리 팔고, 손실 난 주식은 너무 오래 보유하는 현상. 손실 회피와 결합되어 포트폴리오 수익률을 체계적으로 악화시킨다.",
+      "investor_trap": "수익 종목 조기 매도로 큰 상승을 놓치고, 손실 종목 방치로 회복 불가능한 손실 확대.",
+      "counter_strategy": "매도 근거를 펀더멘탈 변화에만 두고, 수익률 자체를 매도 기준으로 삼지 않는다."
+    },
+    {
+      "id": "overtrading",
+      "name": "과잉 자신감과 과잉 거래",
+      "source": "Barber & Odean, Trading Is Hazardous to Your Wealth (2000)",
+      "description": "개인 투자자는 자신의 정보 분석 능력을 과대평가하여 필요 이상으로 자주 거래한다. 거래 빈도가 높을수록 수수료와 세금으로 수익이 감소한다.",
+      "investor_trap": "단기 뉴스나 차트 변동에 반응하여 잦은 매매. 연간 수익률이 거래 비용만큼 하락.",
+      "counter_strategy": "거래 전 최소 24시간 냉각 기간을 둔다. 거래 일지를 작성하여 자신의 패턴을 객관적으로 관찰한다."
+    },
+    {
+      "id": "herd_behavior",
+      "name": "군중 심리",
+      "source": "Shiller, Irrational Exuberance (2000)",
+      "description": "다수가 특정 방향으로 움직이면 정보 없이도 따라가는 경향. 버블과 패닉의 핵심 원인. 개인의 합리적 판단을 압도한다.",
+      "investor_trap": "커뮤니티/뉴스에서 특정 종목이 화제일 때 뒤늦게 진입. 대부분 고점 근처에서 매수하게 된다.",
+      "counter_strategy": "다수 의견과 반대로 움직이라는 게 아니라, 군중의 행동이 가격에 이미 반영되었는지 확인한다."
+    },
+    {
+      "id": "fomo",
+      "name": "FOMO (Fear Of Missing Out)",
+      "source": "Przybylski et al. (2013), Behavioral Finance literature",
+      "description": "다른 사람이 수익을 올리는 것을 보면 자신만 뒤처진다는 두려움이 생겨 분석 없이 매수한다. SNS와 커뮤니티가 이 효과를 증폭시킨다.",
+      "investor_trap": "급등 종목에 충동 매수. 이미 상승 동력이 소진된 후 진입하여 고점에 물리는 패턴.",
+      "counter_strategy": "모든 기회를 잡을 필요는 없다. 놓친 기회의 손실은 0원이지만, 잘못된 진입의 손실은 실제 자본 감소다."
+    },
+    {
+      "id": "anchoring",
+      "name": "앵커링 효과",
+      "source": "Tversky & Kahneman (1974)",
+      "description": "처음 접한 숫자(매수가, 최고가, 목표가)에 과도하게 집착한다. 현재 가치와 무관한 기준점이 판단을 왜곡한다.",
+      "investor_trap": "본전 가격에 앵커링되어 합리적 매도 시점을 놓침. 과거 최고가를 기준으로 현재가가 싸다고 착각.",
+      "counter_strategy": "현재 시점의 펀더멘탈과 미래 전망으로만 판단한다. 매수가를 의사결정에서 완전히 배제한다."
+    },
+    {
+      "id": "confirmation_bias",
+      "name": "확증 편향",
+      "source": "Wason (1960), Nickerson (1998)",
+      "description": "자신의 기존 판단을 지지하는 정보만 선택적으로 수집하고, 반대 정보는 무시하거나 과소평가한다.",
+      "investor_trap": "매수한 종목의 호재만 찾고 악재를 무시. 손실이 커져도 긍정적 해석만 고집.",
+      "counter_strategy": "의도적으로 반대 의견을 찾는다. 자신의 투자 논리를 반박하는 시나리오를 먼저 작성한다."
+    },
+    {
+      "id": "market_sentiment_cycle",
+      "name": "시장 감정 사이클",
+      "source": "Howard Marks, Mastering the Market Cycle (2018)",
+      "description": "시장은 낙관-흥분-탐욕-공포-절망-회복의 감정 사이클을 반복한다. 극단적 감정 구간에서 대부분의 투자자가 최악의 결정을 내린다.",
+      "investor_trap": "탐욕 구간에서 추가 매수, 공포 구간에서 패닉 매도. 사이클의 양 극단에서 시장과 정반대 방향이 유리한 경우가 많다.",
+      "counter_strategy": "현재 시장이 사이클의 어느 위치인지 객관적 지표(VIX, 투자자 예탁금, 신용잔고)로 판단한다."
+    }
+  ]
+}

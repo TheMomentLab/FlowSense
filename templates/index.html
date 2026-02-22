@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowSense</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css?v=4">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1><svg class="header-logo" width="28" height="28" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hgrad" x1="30" y1="435" x2="450" y2="130" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00D4FF"/><stop offset="30%" stop-color="#4D8BFF"/><stop offset="60%" stop-color="#7B61FF"/><stop offset="100%" stop-color="#B44AFF"/></linearGradient></defs><path d="M 385 133 Q 399 181, 447 195 Q 399 209, 385 257 Q 371 209, 323 195 Q 371 181, 385 133 Z" fill="url(#hgrad)"/><path d="M 35 435 C 55 435, 85 360, 120 335 C 155 310, 170 395, 205 400 C 240 405, 300 310, 345 240 C 360 215, 375 200, 385 195" stroke="url(#hgrad)" stroke-width="25" stroke-linecap="round" fill="none"/></svg>FlowSense</h1>
+            <button id="themeToggle" class="theme-btn">다크</button>
+        </header>
+
+        <section class="search-section">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="종목명 검색" autocomplete="off">
+                <button id="searchBtn" class="search-btn">분석</button>
+                <div id="autocomplete" class="autocomplete-dropdown"></div>
+            </div>
+        </section>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>데이터를 불러오는 중...</p>
+        </div>
+
+        <div id="error" class="error-msg hidden"></div>
+
+        <div id="result" class="layout hidden">
+            <main class="main-content">
+                <div class="stock-header">
+                    <div>
+                        <h2 id="stockName"></h2>
+                        <span id="stockCode" class="meta-tag"></span>
+                        <span id="stockMarket" class="meta-tag accent"></span>
+                    </div>
+                    <div class="price-block" id="priceBlock">
+                        <span class="price" id="currentPrice"></span>
+                        <span class="change" id="changeRate"></span>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <div class="chart-toolbar">
+                        <button class="period-btn active" data-interval="daily">일봉</button>
+                        <button class="period-btn" data-interval="weekly">주봉</button>
+                        <button class="period-btn" data-interval="monthly">월봉</button>
+                    </div>
+                    <div id="chartContainer" class="chart-container"></div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-label">시가총액</span>
+                        <span class="metric-value" id="marketCap">-</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">PER</span>
+                        <span class="metric-value" id="perValue">-</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">PBR</span>
+                        <span class="metric-value" id="pbrValue">-</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">배당률</span>
+                        <span class="metric-value" id="divValue">-</span>
+                    </div>
+                </div>
+
+                <div class="indicators-grid">
+                    <div class="indicator-item">
+                        <span class="indicator-label">SMA 5</span>
+                        <span class="indicator-value" id="sma5">-</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">SMA 20</span>
+                        <span class="indicator-value" id="sma20">-</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">SMA 60</span>
+                        <span class="indicator-value" id="sma60">-</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">RSI 14</span>
+                        <span class="indicator-value" id="rsi14">-</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">거래량 비율</span>
+                        <span class="indicator-value" id="volRatio">-</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">52주 고가</span>
+                        <span class="indicator-value" id="high52">-</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-label">52주 저가</span>
+                        <span class="indicator-value" id="low52">-</span>
+                    </div>
+                </div>
+
+                <div class="sources-grid">
+                    <div class="source-card">
+                        <h3>뉴스</h3>
+                        <ul id="newsList"></ul>
+                    </div>
+                    <div class="source-card">
+                        <h3>공시</h3>
+                        <ul id="disclosureList"></ul>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="sidebar" id="sidebar">
+                <h3 class="sidebar-title">AI 판단</h3>
+                <div class="agent-buttons">
+                    <button class="agent-btn" data-agent="buffett">
+                        <span class="agent-initial">B</span>
+                        <span class="agent-label">Warren Buffett</span>
+                    </button>
+                    <button class="agent-btn" data-agent="graham">
+                        <span class="agent-initial">G</span>
+                        <span class="agent-label">Benjamin Graham</span>
+                    </button>
+                    <button class="agent-btn" data-agent="lynch">
+                        <span class="agent-initial">L</span>
+                        <span class="agent-label">Peter Lynch</span>
+                    </button>
+                </div>
+                <div id="agentResults" class="agent-results"></div>
+            </aside>
+        </div>
+
+        <footer>
+            <p>본 서비스는 참고용이며, 실제 투자 결정은 전문가와 상담하시기 바랍니다.</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="/static/script.js?v=4"></script>
+</body>
+</html>
